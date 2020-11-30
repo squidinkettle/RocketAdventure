@@ -83,6 +83,8 @@ public class Rocket : MonoBehaviour
                 break;
             case "Ammo":
                 break;
+            case "Finish":
+                break;
             default:
                 print("Ded");
                 break;
