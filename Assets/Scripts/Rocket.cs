@@ -7,11 +7,16 @@ using UnityEngine.SceneManagement;
 public class Rocket : MonoBehaviour
 {
     Rigidbody rigidbody;
+    BoxCollider[] boxCollider;
     AudioSource audioSource;
     [SerializeField] float rcsThrust = 100f;
     [SerializeField] float mainThrust = 100f;
     [SerializeField]List<AudioClip> listClips = new List<AudioClip>();
     [SerializeField] List<ParticleSystem> particles = new List<ParticleSystem>();
+    [SerializeField] float loadLevelTime = 2f;
+    [SerializeField] GameObject thrusterLight;
+    static int levelNum=0;
+    const int NUMBER_OF_LEVELS = 4;
 
     enum State {Alive, Dying, Transcending }
     State state = State.Alive;
@@ -20,8 +25,11 @@ public class Rocket : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
-     
-        
+        thrusterLight.SetActive(false);
+ 
+        boxCollider = GetComponentsInChildren<BoxCollider>();
+
+
     }
 
     // Update is called once per frame
@@ -41,6 +49,9 @@ public class Rocket : MonoBehaviour
             ThrusterControl();
             RotationControl();
         }
+        if(Debug.isDebugBuild)
+            DebugKeys();
+
     }
 
 
@@ -49,12 +60,13 @@ public class Rocket : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             rigidbody.AddRelativeForce(Vector3.up * mainThrust);
-
+            thrusterLight.SetActive(true);
             AudioControl(0);
             particles[0].Play();
         }
         else
         {
+            thrusterLight.SetActive(false);
             particles[0].Stop();
             audioSource.Stop();
         }
@@ -83,6 +95,41 @@ public class Rocket : MonoBehaviour
 
         rigidbody.freezeRotation = false;
         
+
+    }
+    private void DebugKeys()
+    {
+        GoToNextLevel();
+        TriggerBoxCollider();
+
+    }
+
+    private void TriggerBoxCollider()
+    {
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            for (int x = 0; x < boxCollider.Length; x++)
+            {
+                boxCollider[x].isTrigger = !boxCollider[x].isTrigger;
+
+            }
+        }
+    }
+
+    private void GoToNextLevel()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            levelNum++;
+            LoadNextScene();
+
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            levelNum--;
+            LoadNextScene();
+        }
 
     }
 
@@ -116,7 +163,8 @@ public class Rocket : MonoBehaviour
         audioSource.Stop();
         AudioControl(1);
         particles[2].Play();
-        Invoke("LoadNextScene", 1f);
+        levelNum++;
+        Invoke("LoadNextScene", loadLevelTime);
     }
 
     private void StartDeathSequence()
@@ -126,17 +174,19 @@ public class Rocket : MonoBehaviour
         audioSource.Stop();
         AudioControl(2);
         particles[1].Play();
-        Invoke("Death", 1f);
+        Invoke("Death", loadLevelTime);
     }
 
     private void Death()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(levelNum);
     }
 
     private void LoadNextScene()
     {
-        SceneManager.LoadScene(1);
+
+        if (levelNum < 0 || levelNum > NUMBER_OF_LEVELS) { levelNum = 0; }
+        SceneManager.LoadScene(levelNum);
     }
 
 
