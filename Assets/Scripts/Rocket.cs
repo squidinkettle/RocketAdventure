@@ -15,8 +15,8 @@ public class Rocket : MonoBehaviour
     [SerializeField] List<ParticleSystem> particles = new List<ParticleSystem>();
     [SerializeField] float loadLevelTime = 2f;
     [SerializeField] GameObject thrusterLight;
-    static int levelNum=0;
-    const int NUMBER_OF_LEVELS = 4;
+
+    int NUMBER_OF_LEVELS = SceneManager.sceneCountInBuildSettings;
 
     enum State {Alive, Dying, Transcending }
     State state = State.Alive;
@@ -97,6 +97,7 @@ public class Rocket : MonoBehaviour
         
 
     }
+
     private void DebugKeys()
     {
         GoToNextLevel();
@@ -121,15 +122,11 @@ public class Rocket : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            levelNum++;
+  
             LoadNextScene();
 
         }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            levelNum--;
-            LoadNextScene();
-        }
+     
 
     }
 
@@ -163,7 +160,6 @@ public class Rocket : MonoBehaviour
         audioSource.Stop();
         AudioControl(1);
         particles[2].Play();
-        levelNum++;
         Invoke("LoadNextScene", loadLevelTime);
     }
 
@@ -179,14 +175,18 @@ public class Rocket : MonoBehaviour
 
     private void Death()
     {
-        SceneManager.LoadScene(levelNum);
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        SceneManager.LoadScene(currentSceneIndex);
     }
 
     private void LoadNextScene()
     {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextSceneIndex = currentSceneIndex + 1;
 
-        if (levelNum < 0 || levelNum > NUMBER_OF_LEVELS) { levelNum = 0; }
-        SceneManager.LoadScene(levelNum);
+        if (nextSceneIndex < 0 || nextSceneIndex > NUMBER_OF_LEVELS) { nextSceneIndex = 0; }
+        SceneManager.LoadScene(nextSceneIndex);
     }
 
 
