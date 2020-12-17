@@ -1793,6 +1793,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3857855565815906873, guid: 6a16760d0a122431d9ff3e305072b12e, type: 3}
+      propertyPath: field of view
+      value: 66.7
+      objectReference: {fileID: 0}
     - target: {fileID: 3857855565815906875, guid: 6a16760d0a122431d9ff3e305072b12e, type: 3}
       propertyPath: m_Name
       value: Main Camera
@@ -1823,23 +1827,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3857855565815906878, guid: 6a16760d0a122431d9ff3e305072b12e, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.97922283
+      value: 0.98967516
       objectReference: {fileID: 0}
     - target: {fileID: 3857855565815906878, guid: 6a16760d0a122431d9ff3e305072b12e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.20278728
+      value: 0.14332853
       objectReference: {fileID: 0}
     - target: {fileID: 3857855565815906878, guid: 6a16760d0a122431d9ff3e305072b12e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3857855565815906878, guid: 6a16760d0a122431d9ff3e305072b12e, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3857855565815906878, guid: 6a16760d0a122431d9ff3e305072b12e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 23.4
+      value: 16.481
       objectReference: {fileID: 0}
     - target: {fileID: 3857855565815906878, guid: 6a16760d0a122431d9ff3e305072b12e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y

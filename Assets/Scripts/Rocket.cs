@@ -16,13 +16,14 @@ public class Rocket : MonoBehaviour
     [SerializeField] float loadLevelTime = 2f;
     [SerializeField] GameObject thrusterLight;
 
-    int NUMBER_OF_LEVELS = SceneManager.sceneCountInBuildSettings;
+    int NUMBER_OF_LEVELS;
 
     enum State {Alive, Dying, Transcending }
     State state = State.Alive;
     // Start is called before the first frame update
     void Start()
     {
+        NUMBER_OF_LEVELS = SceneManager.sceneCountInBuildSettings-1;
         rigidbody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         thrusterLight.SetActive(false);
@@ -186,6 +187,7 @@ public class Rocket : MonoBehaviour
         int nextSceneIndex = currentSceneIndex + 1;
 
         if (nextSceneIndex < 0 || nextSceneIndex > NUMBER_OF_LEVELS) { nextSceneIndex = 0; }
+
         SceneManager.LoadScene(nextSceneIndex);
     }
 
